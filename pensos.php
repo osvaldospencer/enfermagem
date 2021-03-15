@@ -1,88 +1,178 @@
 <?php
 
 include('config.php');
-$id = 0;
-$nome = "";
 
 
-if (isset($_GET['id'])) {
-  $id = $_GET['id'];
+$ut = LerUtentes($db_con, 0, "");
+$tam = count($ut);
+$estilo = 0;
+
+if (isset($_GET['estilo'])) {
+  $estilo = $_GET['estilo'];
 }
 
+function Idade($data)
+{
 
-$ut = LerPensosId($db_con, $id);
-
-
-
+  $date = new DateTime($data);
+  $interval = $date->diff(new DateTime(date('Y-m-d')));
+  echo $interval->format('%Y anos');
+}
 
 ?>
-
-<div class="col-12" style="border:2px solid #ccc">
-
-  <h3>Pensos de utente</h3>
+<div class="col-6 "
+  style="display:flex; flex-direction:row; flex-wrap: wrap; align-items: center; justify-content: space-around;">
+  <button type="button" class="btn btn-success" id="1">S. Domingos</button><button type="button" class="btn btn-success"
+    id="2">S.
+    José</button><button type="button" class="btn btn-success" id="3">C Dia</button>
+  <input type="text" name="" value="" id="nome">
+  <input type="hidden" id="estil" value="">
+  <input type="hidden" id="registar" value="">
+</div>
+<div class="d-flex flex-row justify-content-lg-between col-4 py-3">
   <div>
-    <?php
-    if ($ut == 0) {
-      echo 'Não há registos';
-    } else {
-
-    ?>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Data</th>
-          <th scope="col">Hora</th>
-          <th scope="col">Penso</th>
-
-          <th scope="col">por</th>
-          <th scope="col">&nbsp;</th>
-
-        </tr>
-      </thead>
-      <tbody>
-
-        <?php
-
-          $x = 0;
-          foreach ($ut as $key => $value) {
-            //if ($value['estado'] == 1) {
-            $x++;
-
-          ?>
-        <tr>
-          <th scope="row"><?php echo $x; ?></th>
-          <td><?php echo $value['data']; ?></td>
-          <td><?php echo $value['hora']; ?></td>
-          <td><?php echo $value['penso']; ?></td>
-
-          <td><?php echo $value['tecnico']; ?></td>
-          <td><img src="<?php echo $value['foto']; ?>" alt="" srcset=""> </td>
-
-
-        </tr>
-        <?php
-            //}
-          }
-        }
-        ?>
-
-      </tbody>
-
-    </table>
+    <a href="#" id="linha" class=" list-group-horizontal" rel="noopener noreferrer">
+      <img src="images/row.png" alt="" srcset="" width="30px">
+    </a> &nbsp;
+    <a href="#" id="coluna" class=" list-group-horizontal" rel="noopener noreferrer">
+      <img src="images/column.png" alt="" srcset="" width="30px">
+    </a>
   </div>
-
+  <div class="d-flex ">
+    <a href="#" id="novo" class=" list-group-horizontal" rel="noopener noreferrer">
+      <img src="images/add.jpg" alt="" srcset="" width="30px">
+    </a>
+  </div>
 
 </div>
 
+<div class="row d-flex flex-row py-3 ">
+
+
+  <div class="col-4 d-flex flex-column justify-content-center " style="border:2px solid #ccc" id="dados2_">
+    <div class=" p-lg-5 mx-auto ">
+
+      <h5 class="display-6 fw-normal">Lista de Utentes</h5>
+
+      <?php
+
+      $val = ["1" => "S. Domingos", "2" => "S. José", "3" => "C Dia", "4" => "SAD"];
+      ?>
+
+      <div class="row-cols-1 "
+        style="display:flex; flex-direction:row; flex-wrap: wrap; justify-content: space-around;   padding-top:2px">
+        <?php
+        if ($tam > 0) {
+
+
+          foreach ($ut as $key => $value) {
+            if ($estilo == 0) {
+              # code...
+
+
+        ?>
+
+        <a href="#" class="btn btn-outline-info" id="nomes" data="<?php echo $value['id']; ?>"
+          name="<?php echo $value['nome']; ?>" style="width: 50%;">
+          <div class="shadow p-3 mb-1 bg-body rounded" style="width:100%; border:1px solid #000; ">
+            <img src="images/user.jpg" alt="..." class="rounded-circle z-depth-4" style="border: 1px solid #ccc"
+              data-holder-rendered="true" width="80%">
+            <p class=""><?php echo $value['nome']; ?></p>
+          </div>
+        </a>
+
+
+
+
+
+
+        <?php
+            } else {
+            ?>
+        <a href="#" class="btn btn-outline-info" id="nomes" data="<?php echo $value['id']; ?>"
+          name="<?php echo $value['nome']; ?>" style="width: 100%;">
+          <div class="shadow p-3 mb-1 bg-body rounded" style="width:100%; border:1px solid #000; ">
+            <p class=""><?php echo $value['nome']; ?></p>
+          </div>
+        </a>
+
+
+        <?php
+            }
+          }
+
+          //sendMail("Próximas Consultas de Utentes",$mensagem);
+        } else {
+          echo "[]";
+        }
+        ?>
+      </div>
+
+
+    </div>
+  </div>
+  <div class="col-8 py-2" id="infmed">
+    <p>Esta área é destina-se aos pensos.</p>
+    <p>Pode consultar pensos de cada utente, escolhendo o utente do lado esquerdo.</p>
+    <p>Para registar pensos a um utente clica no botão +</p>
+  </div>
+</div>
 
 
 
 <script>
 $(document).ready(function() {
   $('button').click(function() {
-    $('#dados2').load($(this).attr('name') + '.php');
+    $('#dados2_').load('pesquisarutente2.php?id=' + $(this).attr('id') + '&estilo=' + $('#estil').val());
   });
+
+  $('#nome').keyup(function() {
+    $('#dados2_').load('pesquisarutente2.php?nome=' + $(this).val() + '&estilo=' + $('#estil').val());
+  });
+
+  $('a#inf').click(function() {
+
+    $('#dados').load('utente.php?id=' + $(this).attr('data'));
+  });
+
+  $('#linha').click(function() {
+
+    $('#estil').val('1')
+    $('#dados2_').load('pesquisarutente2.php?nome=' + $(this).val() + '&estilo=1');
+  });
+
+  $('#coluna').click(function() {
+
+    $('#estil').val('0')
+    $('#dados2_').load('pesquisarutente2.php?nome=' + $(this).val() + '&estilo=0');
+  });
+
+  $('#novo').click(function() {
+    $('#registar').val('1')
+    $('#infmed').load('registapensos.php');
+  });
+
+  $('a#nomes').click(function() {
+    let ti = $('#registar').val()
+    if (ti == 1) {
+      $('#utente').val($(this).attr('name'))
+      $('#utenteid').val($(this).attr('data'))
+    } else {
+
+      var n = {
+        nome: '',
+        id: 0
+      }
+      n.nome = $(this).attr('name');
+      $('#infmed').load('penso.php?id=' + $(this).attr('data'));
+
+    }
+
+  });
+
+
+
+
 
 
 });

@@ -9,7 +9,7 @@ if (isset($_GET['id'])) {
   $id = $_GET['id'];
 }
 
-$ut = LerMedicacaoId($db_con, $id);
+$ut = LerPensosId($db_con, $id);
 //$tam = count($ut);
 
 $ut_ = LerUtentesId($db_con, $id);
@@ -18,7 +18,7 @@ $ut_ = LerUtentesId($db_con, $id);
 
 <div class="col-12" style="border:2px solid #ccc">
 
-  <h4>Medicações de utente - <?php echo $ut_[0]['nome']; ?> </h4>
+  <h4>Pensos de utente - <?php echo $ut_[0]['nome']; ?> </h4>
   <div>
     <?php
     if ($ut == 0) {
@@ -30,14 +30,12 @@ $ut_ = LerUtentesId($db_con, $id);
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Medicamento</th>
-          <th scope="col">Manhã</th>
-          <th scope="col">Almoço</th>
-          <th scope="col">Lanche</th>
-          <th scope="col">Jantar</th>
-          <th scope="col">Deitar</th>
-          <th scope="col">Inicio</th>
-          <th scope="col">Fim</th>
+          <th scope="col">Data</th>
+          <th scope="col">Hora</th>
+          <th scope="col">Penso</th>
+          <th scope="col">foto</th>
+          <th scope="col">Por</th>
+
         </tr>
       </thead>
       <tbody>
@@ -51,14 +49,12 @@ $ut_ = LerUtentesId($db_con, $id);
           ?>
         <tr>
           <th scope="row"><?php echo $x; ?></th>
-          <td><?php echo $value['medicamento']; ?></td>
-          <td><?php echo $value['manha']; ?></td>
-          <td><?php echo $value['almoco']; ?></td>
-          <td><?php echo $value['lanche']; ?></td>
-          <td><?php echo $value['jantar']; ?></td>
-          <td><?php echo $value['deitar']; ?></td>
-          <td><?php echo $value['inicio']; ?></td>
-          <td><?php echo $value['fim']; ?></td>
+          <td><?php echo $value['dia']; ?></td>
+          <td><?php echo $value['hora']; ?></td>
+          <td><?php echo $value['penso']; ?></td>
+          <td><?php echo $value['foto']; ?></td>
+          <td><?php echo $value['tecnico']; ?></td>
+
 
         </tr>
         <?php

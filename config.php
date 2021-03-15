@@ -92,3 +92,20 @@ function LerSinaisId($db_con, $id)
     return 0;
   }
 }
+
+
+function LerMedicamntos($db_con)
+{
+  $stmt = $db_con->query("SELECT * FROM medicamentos order by nome asc");
+  $vals = $stmt->fetchAll();
+  $valsnum = $stmt->rowCount();
+  if ($valsnum > 0) {
+    return $vals;
+  } else {
+    return 0;
+  }
+}
+
+
+
+?>

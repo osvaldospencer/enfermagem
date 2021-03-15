@@ -1,13 +1,14 @@
 <?php
 
 include('dbconfig.php');
-/*
+
+
 $op = "";
 if (isset($_GET['op'])) {
-  $op = $_POST['op'];
+  $op = $_GET['op'];
 }
 
-if ($op=="gravamedic") { */
+if ($op=="gravamedicut") { 
   $dados = array();
   //parse_str($_GET['data'], $dados);
   
@@ -26,25 +27,72 @@ if ($op=="gravamedic") { */
     
       print_r($dados);
 
+      try {
+        $statement = $db_con->prepare("INSERT INTO medicacao (idutente,medicamento,manha,almoco, lanche, jantar, deitar, inicio, fim)
+            VALUES(?,?,?,?,?,?,?,?,?)");
+
+        $statement->execute($dados);
+        if($statement){
+            echo '1';            
+            
+        }else {
+            echo '0';
+        }
+    } catch(PDOException $e) {
+        echo $e->getMessage();
+    }
+
+}elseif($op=="gravamedic") {
+    $nome = $_GET['nome'];
+    $no = array();
+    array_push($no, $nome);
+    try {
+      $statement = $db_con->prepare("INSERT INTO medicamentos (nome)
+          VALUES(?)");
+
+      $statement->execute($no);
+      if($statement){
+          echo '1';            
+          
+      }else {
+          echo '0';
+      }
+    } catch(PDOException $e) {
+        echo $e->getMessage();
+    }
+}elseif($op=="gravapenso") {
+  $id = $_GET['utenteid'];
+  $penso = $_GET['descricao'];
+  $fot = $_GET['fot'];
+  $tec = $_GET['tec'];
+  $dia = date('Y-m-d');
+  $hora = date("h:i:sa");
+
+  $no = array();
+  array_push($no, $id);
+  array_push($no, $penso);
+  array_push($no, $foto);
+  array_push($no, $dia);
+  array_push($no, $hora);
+  array_push($no, $tec);
+
+  print_r($no);
+
   try {
-    $statement = $db_con->prepare("INSERT INTO medicacao (idutente,medicamento,manha,almoco, lanche, jantar, deitar, inicio, fim)
-        VALUES(?,?,?,?,?,?,?,?,?)");
+    $statement = $db_con->prepare("INSERT INTO pensos (idutente,penso, foto, dia, hora, tecnico)
+        VALUES(?,?,?,?,?,?)");
 
-    $statement->execute($dados);
-    
-
+    $statement->execute($no);
     if($statement){
-        echo '1';              
+        echo '1';            
         
     }else {
         echo '0';
     }
-} catch(PDOException $e) {
-    echo $e->getMessage();
-}
-/*} else {
-  # code...
+  } catch(PDOException $e) {
+      echo $e->getMessage();
+  }
 }
 
-*/
+
 ?>

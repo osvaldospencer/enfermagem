@@ -149,7 +149,7 @@ $(document).ready(function() {
 
   $('#novo').click(function() {
     $('#registar').val('1')
-    $('#infmed').load('registamedicacao.html');
+    $('#infmed').load('registamedicacao.php');
   });
 
   $('a#nomes').click(function() {
@@ -158,7 +158,14 @@ $(document).ready(function() {
       $('#utente').val($(this).attr('name'))
       $('#utenteid').val($(this).attr('data'))
     } else {
-      //$('#dados').load('utente.php?id=' + $(this).attr('data'));
+
+      var n = {
+        nome: '',
+        id: 0
+      }
+      n.nome = $(this).attr('name');
+      $('#infmed').load('medicacao.php?id=' + $(this).attr('data'));
+
     }
 
   });
