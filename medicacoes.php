@@ -27,6 +27,7 @@ function Idade($data)
     José</button><button type="button" class="btn btn-success" id="3">C Dia</button>
   <input type="text" name="" value="" id="nome">
   <input type="hidden" id="estil" value="">
+  <input type="hidden" id="registar" value="">
 </div>
 <div class="d-flex flex-row justify-content-lg-between col-4 py-3">
   <div>
@@ -71,7 +72,8 @@ function Idade($data)
 
         ?>
 
-        <a href="#" class="btn btn-outline-info" style="width: 50%;">
+        <a href="#" class="btn btn-outline-info" id="nomes" data="<?php echo $value['id']; ?>"
+          name="<?php echo $value['nome']; ?>" style="width: 50%;">
           <div class="shadow p-3 mb-1 bg-body rounded" style="width:100%; border:1px solid #000; ">
             <img src="images/user.jpg" alt="..." class="rounded-circle z-depth-4" style="border: 1px solid #ccc"
               data-holder-rendered="true" width="80%">
@@ -87,7 +89,8 @@ function Idade($data)
         <?php
             } else {
             ?>
-        <a href="#" class="btn btn-outline-info" style="width: 100%;">
+        <a href="#" class="btn btn-outline-info" id="nomes" data="<?php echo $value['id']; ?>"
+          name="<?php echo $value['nome']; ?>" style="width: 100%;">
           <div class="shadow p-3 mb-1 bg-body rounded" style="width:100%; border:1px solid #000; ">
             <p class=""><?php echo $value['nome']; ?></p>
           </div>
@@ -109,7 +112,9 @@ function Idade($data)
     </div>
   </div>
   <div class="col-8 py-2" id="infmed">
-    sdfs
+    <p>Esta área é destina-se às medicações.</p>
+    <p>Pode consultar medicações de cada utente, escolhendo o utente do lado esquerdo.</p>
+    <p>Para adicionar medicamentos a um utente clica no botão +</p>
   </div>
 </div>
 
@@ -118,7 +123,6 @@ function Idade($data)
 <script>
 $(document).ready(function() {
   $('button').click(function() {
-
     $('#dados2_').load('pesquisarutente2.php?id=' + $(this).attr('id') + '&estilo=' + $('#estil').val());
   });
 
@@ -144,9 +148,24 @@ $(document).ready(function() {
   });
 
   $('#novo').click(function() {
-
+    $('#registar').val('1')
     $('#infmed').load('registamedicacao.html');
   });
+
+  $('a#nomes').click(function() {
+    let ti = $('#registar').val()
+    if (ti == 1) {
+      $('#utente').val($(this).attr('name'))
+      $('#utenteid').val($(this).attr('data'))
+    } else {
+      //$('#dados').load('utente.php?id=' + $(this).attr('data'));
+    }
+
+  });
+
+
+
+
 
 
 });
