@@ -25,9 +25,9 @@ $medic = LerMedicamntos($db_con);
   <div class="mb-3 row">
     <label for="inputPassword" class="col-sm-2 col-form-label">&nbsp;</label>
     <div class="col-sm-8">
-      <input class="form-control" type="file" id="formFile">
+      <input class="form-control" type="file" id="formFile" name="formFile" onchange="previewFile(this);">
       <div id="preview">
-        <img src="filed.png" />
+        <img src="filed.png" id="previewImage" width="250px" />
       </div>
     </div>
 
@@ -50,6 +50,19 @@ $medic = LerMedicamntos($db_con);
 </div>
 
 <script>
+function previewFile(input) {
+  var file = $("input[type=file]").get(0).files[0];
+
+  if (file) {
+    var reader = new FileReader();
+
+    reader.onload = function() {
+      $("#previewImage").attr("src", reader.result);
+    }
+
+    reader.readAsDataURL(file);
+  }
+}
 $(document).ready(function() {
   $('#cancela').click(function() {
     $('#registar').val('0')
@@ -60,15 +73,25 @@ $(document).ready(function() {
 
     let id = $('#utenteid').val()
     let med = $('#descricao').val().length
-
-
-
+    let des = $('#descricao').val()
+    /*
+        img = $('#formFile').get(0).files[0].name;
+        alert(img)
+    */
+    var formData = new FormData();
+    formData.append('photoimg', $('#formFile')[0].files[0]);
+    formData.append('utenteid', id);
+    formData.append('descricao', des);
 
     if (id > 0 && med > 2) {
       $.ajax({
-        method: 'GET',
+        method: 'POST',
         url: 'sets.php?op=gravapenso&tec=osvaldo',
-        data: $('#formdados').serialize(),
+        dataType: "json",
+        processData: false, // tell jQuery not to process the data
+        contentType: false,
+        enctype: "multipart/form-data",
+        data: formData,
         beforeSend: function() {
           $("#mensagem").fadeOut();
           $("#mensagem").html('<img src="images/btn-ajax-loader.gif" /> &nbsp;');

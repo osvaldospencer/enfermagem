@@ -52,7 +52,8 @@ $ut_ = LerUtentesId($db_con, $id);
           <td><?php echo $value['dia']; ?></td>
           <td><?php echo $value['hora']; ?></td>
           <td><?php echo $value['penso']; ?></td>
-          <td><?php echo $value['foto']; ?></td>
+          <td> <img src="data:image/jpg;charset=utf8;base64,<?php base64_encode($value['foto']); ?>" />
+          </td>
           <td><?php echo $value['tecnico']; ?></td>
 
 

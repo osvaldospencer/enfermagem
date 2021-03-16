@@ -61,17 +61,26 @@ if ($op=="gravamedicut") {
         echo $e->getMessage();
     }
 }elseif($op=="gravapenso") {
-  $id = $_GET['utenteid'];
-  $penso = $_GET['descricao'];
-  $fot = $_GET['fot'];
+
+    echo '->'.$_FILES['photoimg']['tmp_name'];
+    //if (is_uploaded_file($_FILES['photoimg']['tmp_name'])) {
+        
+        //$fot = addslashes(file_get_contents("https://i.imgur.com/UYcHkKD.png"));
+        $fot = fopen($_FILES['photoimg']['tmp_name'], 'rb');
+        //$imageProperties = getimageSize($_FILES['userImage']['tmp_name']);
+    //}
+  $id = $_POST['utenteid'];
+  $pensos = $_POST['descricao'];
+  //$fot = addslashes(file_get_contents($_FILES["photoimg"]["tmp_name"]));
+  date_default_timezone_set("Europe/lisbon");
   $tec = $_GET['tec'];
   $dia = date('Y-m-d');
-  $hora = date("h:i:sa");
+  $hora = date("H:i");
 
   $no = array();
   array_push($no, $id);
-  array_push($no, $penso);
-  array_push($no, $foto);
+  array_push($no, $pensos);
+  array_push($no, $fot);
   array_push($no, $dia);
   array_push($no, $hora);
   array_push($no, $tec);
@@ -92,6 +101,8 @@ if ($op=="gravamedicut") {
   } catch(PDOException $e) {
       echo $e->getMessage();
   }
+
+  
 }
 
 
