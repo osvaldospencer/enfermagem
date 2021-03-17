@@ -20,16 +20,16 @@ function Idade($data)
 }
 
 ?>
-<div class="col-6 "
-  style="display:flex; flex-direction:row; flex-wrap: wrap; align-items: center; justify-content: space-around;">
-  <button type="button" class="btn btn-success" id="1">S. Domingos</button><button type="button" class="btn btn-success"
-    id="2">S.
-    José</button><button type="button" class="btn btn-success" id="3">C Dia</button>
+<div class="sm-12 md-6 lg-6 "
+  tyle="display:flex; flex-direction:row; flex-wrap: wrap; align-items: center; justify-content: space-around;">
+  <button type="button" class="btn btn-success m-1" id="1">S. Domingos</button>
+  <button type="button" class="btn btn-success" id="2">S. José</button>
+  <button type="button" class="btn btn-success" id="3">C Dia</button>
   <input type="text" name="" value="" id="nome">
   <input type="hidden" id="estil" value="">
   <input type="hidden" id="registar" value="">
 </div>
-<div class="d-flex flex-row justify-content-lg-between col-4 py-3">
+<div class="d-flex flex-row justify-content-between  py-3">
   <div>
     <a href="#" id="linha" class=" list-group-horizontal" rel="noopener noreferrer">
       <img src="images/row.png" alt="" srcset="" width="30px">
@@ -46,11 +46,11 @@ function Idade($data)
 
 </div>
 
-<div class="row d-flex flex-row py-3 ">
+<div class="row d-flex flex-column ">
 
 
-  <div class="col-4 d-flex flex-column justify-content-center " style="border:2px solid #ccc" id="dados2_">
-    <div class=" p-lg-5 mx-auto ">
+  <div class="d-flex flex-column justify-content-center overflow-auto" style="border:2px solid #ccc" id="dados2_">
+    <div class="  mx-auto ">
 
       <h5 class="display-6 fw-normal">Lista de Utentes</h5>
 
@@ -59,8 +59,8 @@ function Idade($data)
       $val = ["1" => "S. Domingos", "2" => "S. José", "3" => "C Dia", "4" => "SAD"];
       ?>
 
-      <div class="row-cols-1 "
-        style="display:flex; flex-direction:row; flex-wrap: wrap; justify-content: space-around;   padding-top:2px">
+      <div class="row-cols-1 overflow-auto "
+        style="display:flex; flex-direction:row;  justify-content: space-around;   padding-top:2px">
         <?php
         if ($tam > 0) {
 
@@ -72,26 +72,20 @@ function Idade($data)
 
         ?>
 
-        <a href="#" class="btn btn-outline-info" id="nomes" data="<?php echo $value['id']; ?>"
-          name="<?php echo $value['nome']; ?>" style="width: 50%;">
-          <div class="shadow p-3 mb-1 bg-body rounded" style="width:100%; border:1px solid #000; ">
-            <img src="images/user.jpg" alt="..." class="rounded-circle z-depth-4" style="border: 1px solid #ccc"
-              data-holder-rendered="true" width="80%">
+        <a href="#" class="btn  " id="nomes" data="<?php echo $value['id']; ?>" name="<?php echo $value['nome']; ?>"
+          style="width: 110px;">
+          <div class="shadow  mb-1 bg-body rounded" style="width:100%;border:1px solid #000; ">
+            <img src="images/user.jpg" alt="..." class="rounded-circle z-depth-4" data-holder-rendered="true"
+              width="60px">
             <p class=""><?php echo $value['nome']; ?></p>
           </div>
         </a>
-
-
-
-
-
-
         <?php
             } else {
             ?>
         <a href="#" class="btn btn-outline-info" id="nomes" data="<?php echo $value['id']; ?>"
-          name="<?php echo $value['nome']; ?>" style="width: 100%;">
-          <div class="shadow p-3 mb-1 bg-body rounded" style="width:100%; border:1px solid #000; ">
+          name="<?php echo $value['nome']; ?>" style="width: 110px;">
+          <div class="shadow p-3 mb-1 bg-body rounded" style="width:100%; ">
             <p class=""><?php echo $value['nome']; ?></p>
           </div>
         </a>
@@ -111,7 +105,7 @@ function Idade($data)
 
     </div>
   </div>
-  <div class="col-8 py-2" id="infmed">
+  <div class="sm-12 md-8 lg-8 py-2" id="infmed">
     <p>Esta área é destina-se às medicações.</p>
     <p>Pode consultar medicações de cada utente, escolhendo o utente do lado esquerdo.</p>
     <p>Para adicionar medicamentos a um utente clica no botão +</p>
@@ -157,6 +151,9 @@ $(document).ready(function() {
     if (ti == 1) {
       $('#utente').val($(this).attr('name'))
       $('#utenteid').val($(this).attr('data'))
+      $('html, body').animate({
+        scrollTop: parseInt($("#infmed").offset().top - 100)
+      }, 2000);
     } else {
 
       var n = {
@@ -165,6 +162,9 @@ $(document).ready(function() {
       }
       n.nome = $(this).attr('name');
       $('#infmed').load('medicacao.php?id=' + $(this).attr('data'));
+      $('html, body').animate({
+        scrollTop: parseInt($("#infmed").offset().top - 100)
+      }, 2000);
 
     }
 

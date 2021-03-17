@@ -89,7 +89,7 @@ function LerSinaisId($db_con, $id)
   if ($valsnum > 0) {
     return $vals;
   } else {
-    return 0;
+    return "[]";
   }
 }
 

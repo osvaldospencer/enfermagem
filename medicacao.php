@@ -16,10 +16,10 @@ $ut_ = LerUtentesId($db_con, $id);
 
 ?>
 
-<div class="col-12" style="border:2px solid #ccc">
+<div class="col-12 d-flex flex-column mx-auto ">
 
   <h4>Medicações de utente - <?php echo $ut_[0]['nome']; ?> </h4>
-  <div>
+  <div class="overflow-auto">
     <?php
     if ($ut == 0) {
       echo 'Não há registos';

@@ -31,8 +31,8 @@ function Idade($data)
 ?>
 
 
-<div class="position-relative overflow-hidden  text-center bg-light " id="dados2">
-  <div class=" p-lg-5 mx-auto ">
+<div class="d-flex flex-column justify-content-center sm-12 md-4 lg-4 overflow-auto" id="dados2">
+  <div class=" mx-auto ">
 
     <h3 class="display-6 fw-normal">Lista de Utentes</h3>
 
@@ -42,41 +42,51 @@ function Idade($data)
     ?>
 
     <div class="row-cols-1 "
-      style="display:flex; flex-direction:row; flex-wrap: wrap; justify-content: space-around;   padding-top:5px">
+      style="display:flex; flex-direction:row;  justify-content: space-around;   padding-top:5px; ">
       <?php
-      if ($tam > 0) {
-
-
+      if ($tam > 0) {        
         foreach ($ut as $key => $value) {
           if ($estilo == 0) {
-
       ?>
-
-
-      <a href="#" class="btn" style="width: 50%;" id="nomes" data="<?php echo $value['id']; ?>"
-        name="<?php echo $value['nome']; ?>">
-        <div class="shadow p-3 mb-1 bg-body rounded" style="width:100%; border:1px solid #000; ">
-          <img src="images/user.jpg" alt="..." class="rounded-circle z-depth-4" style="border: 1px solid #ccc"
-            data-holder-rendered="true" width="80%">
-
+      <a href="#" class="btn  " id="nomes" data="<?php echo $value['id']; ?>" name="<?php echo $value['nome']; ?>"
+        style="width: 110px;">
+        <div class="shadow  mb-1 bg-body rounded" style="width:100%; border:1px solid #000; ">
+          <img src="images/user.jpg" alt="..." class="rounded-circle z-depth-4" data-holder-rendered="true"
+            width="60px">
           <p class=""><?php echo $value['nome']; ?></p>
-
-
         </div>
       </a>
 
-
-
-
-
-
       <?php
           } else {
+
+            $nom = explode(' ',$value['nome']);
+            $t = count($nom);
+            
+            $n="";
+            if ($t > 1) {
+              $nomes = $nom[0];
+              //$t = strlen($nom);
+              $apel = $nom[$t-1];
+              $nom2 = "";
+              if (strtoupper($nomes)=="MARIA") {
+                $nom2 =  $nom[1];
+                $n = "".$nomes." ".$nom2." ".$apel;
+              }else {
+                $n = "".$nomes." ".$apel;
+              }
+            }else {
+              $n = "".$nom;
+            }
+            
+            
+
+
           ?>
-      <a href="#" class="btn btn-outline-info" style="width: 100%;" id="nomes" data="<?php echo $value['id']; ?>"
+      <a href="#" class="btn " style="width: 110px;" id="nomes" data="<?php echo $value['id']; ?>"
         name="<?php echo $value['nome']; ?>">
-        <div class="shadow p-1 mb-1 bg-body rounded" style="width:100%; border:1px solid #000; ">
-          <p class=""><?php echo $value['nome']; ?></p>
+        <div class="shadow  mb-1 bg-body rounded" style="width:100%; border:1px solid #000; ">
+          <p class=""><?php echo $n; ?></p>
         </div>
       </a>
       <?php
@@ -95,6 +105,7 @@ function Idade($data)
 
 </div>
 
+
 <script>
 $(document).ready(function() {
   /*
@@ -112,6 +123,9 @@ $(document).ready(function() {
     if (ti == 1) {
       $('#utente').val($(this).attr('name'))
       $('#utenteid').val($(this).attr('data'))
+      $('html, body').animate({
+        scrollTop: parseInt($("#infmed").offset().top - 100)
+      }, 1000);
     } else {
 
       var n = {
@@ -120,7 +134,9 @@ $(document).ready(function() {
       }
       n.nome = $(this).attr('name');
       $('#infmed').load('medicacao.php?id=' + $(this).attr('data'));
-
+      $('html, body').animate({
+        scrollTop: parseInt($("#infmed").offset().top - 100)
+      }, 1000);
     }
 
   });

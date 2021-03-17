@@ -3,6 +3,7 @@
 include('config.php');
 $id = 0;
 $nome = "";
+$estilo = 0;
 
 if (isset($_GET['id'])) {
   $id = $_GET['id'];
@@ -10,6 +11,10 @@ if (isset($_GET['id'])) {
 
 if (isset($_GET['nome'])) {
   $nome = $_GET['nome'];
+}
+
+if (isset($_GET['estilo'])) {
+  $estilo = $_GET['estilo'];
 }
 
 $ut = LerUtentes($db_con, $id, $nome);
@@ -24,6 +29,7 @@ function Idade($data)
 }
 
 ?>
+
 
 <div class="d-flex flex-column justify-content-center sm-12 md-4 lg-4 overflow-auto" id="dados2">
   <div class=" mx-auto ">
@@ -99,17 +105,45 @@ function Idade($data)
 
 </div>
 
-
 <script>
 $(document).ready(function() {
+  /*
   $('button').click(function() {
     $('#dados2').load($(this).attr('name') + '.php');
   });
-
+*/
   $('a#inf').click(function() {
 
     $('#dados').load('utente.php?id=' + $(this).attr('data'));
   });
+
+  $('a#nomes').click(function() {
+    let ti = $('#registar').val()
+    $('a#nomes').odd().removeClass('active')
+    $('a#nomes').even().removeClass('active')
+    $(this).addClass('active')
+    if (ti == 1) {
+      $('#utente').val($(this).attr('name'))
+      $('#utenteid').val($(this).attr('data'))
+      $('html, body').animate({
+        scrollTop: parseInt($("#infmed").offset().top - 100)
+      }, 1000);
+    } else {
+
+      var n = {
+        nome: '',
+        id: 0
+      }
+      n.nome = $(this).attr('name');
+      $('#infmed').load('penso.php?id=' + $(this).attr('data'));
+      $('html, body').animate({
+        scrollTop: parseInt($("#infmed").offset().top - 100)
+      }, 1000);
+
+    }
+
+  });
+
 });
 </script>
 
